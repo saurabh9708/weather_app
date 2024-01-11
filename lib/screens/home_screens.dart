@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/bloc/weather_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var time = DateTime.now();
   Widget getWeatherIcon(int code) {
     switch (code) {
       case >= 200 && < 300:
@@ -45,6 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(40, 1.2 * kToolbarHeight, 40, 20),
         child: SizedBox(
@@ -83,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: const BoxDecoration(color: Colors.transparent),
                 ),
               ),
-              BlocBuilder<WeatherBloc, WeatherState>(
+              BlocBuilder<WeatherBlocBloc, WeatherState>(
                 builder: (context, state) {
                   if (state is WeatherSuccess) {
                     return SizedBox(
@@ -109,10 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             getWeatherIcon(state.weather.weatherConditionCode!),
                             Center(
                               child: Text(
-                                "${state.weather.temperature?.celsius!.round()}°C",
+                                DateFormat().format(state.weather.date!),
                                 style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -130,9 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Center(
                               child: Text(
-                                DateFormat('EEEE dd ·')
-                                    .add_jm()
-                                    .format(state.weather.date!),
+                                ' ${time.hour}:${time.minute}',
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -208,6 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           DateFormat()
                                               .add_jm()
                                               .format(state.weather.sunset!),
+                                          // DateFormat()
+                                          //     .add_jm()
+                                          //     .format(state.weather.sunset!),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
