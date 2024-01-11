@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           DateFormat()
                                               .add_jm()
-                                              .format(state.weather.sunrise!),
+                                              .format(state.weather.sunset!),
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -213,7 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Text(
                                           DateFormat()
                                               .add_jm()
-                                              .format(state.weather.sunset!),
+                                              .format(state.weather.sunrise!),
+
                                           // DateFormat()
                                           //     .add_jm()
                                           //     .format(state.weather.sunset!),
